@@ -1,5 +1,5 @@
 import type { Middleware } from '@reduxjs/toolkit';
-import type { RootState } from '@app/stores';
+import type { RootState } from '../store/stores';
 import { logoutSuccess } from '@pages/Login/reducer';
 
 const authMiddleware: Middleware<{}, RootState> = (storeAPI) => (next) => (action) => {

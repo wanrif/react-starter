@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type Key } from 'react';
 import { setContacts, useGetContactsQuery } from './reducer';
-import { useAppDispatch, useAppSelector } from '@app/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import socket, { connectSocket } from '@utils/socket';
 
 interface IChatting {

@@ -4,6 +4,7 @@ import LandingPage from '@pages/LandingPage';
 import NotFound from '@pages/NotFound';
 import Chatting from '@pages/Chatting';
 import Login from '@pages/Login';
+import QuizHub from '@pages/QuizHub';
 
 // Define a type for your route
 interface RouteConfig {
@@ -34,6 +35,13 @@ const routes: RouteConfig[] = [
         name: 'Chatting Page',
         protected: true,
         component: Chatting,
+        header: true,
+      },
+      {
+        path: '/quiz-hub',
+        name: 'Quiz Hub Page',
+        protected: true,
+        component: QuizHub,
         header: true,
       },
     ],

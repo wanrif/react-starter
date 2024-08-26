@@ -1,6 +1,6 @@
 import { combineReducers, type Action, type Reducer } from '@reduxjs/toolkit';
 import { mapWithPersistor } from './persistence';
-import AppReducer, { appApi, storedKeys as storedAppState } from './reducer';
+import AppReducer, { appApi, storedKeys as storedAppState } from '../app/reducer';
 import LoginReducer, { loginApi, storedKeys as storedLoginState } from '@pages/Login/reducer';
 import chattingReducer, { chattingApi, storedKeys as storedChattingState } from '@pages/Chatting/reducer';
 

@@ -15,7 +15,8 @@
       "@styles/*": ["./src/styles*"],
       "@utils/*": ["./src/utils/*"],
       "@i18n/*": ["./src/i18n/*"],
-      "@middleware/*": ["./src/middleware/*"]
+      "@middleware/*": ["./src/middleware/*"],
+      "@store/*": ["./src/store/*"]
     },
 
     /* Bundler mode */

@@ -1,4 +1,4 @@
-import type { RootState } from '@app/stores';
+import type { RootState } from '../../store/stores';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 

@@ -28,6 +28,9 @@ const Navbar = ({ headerRef }: Props) => {
           <button type='button' className='font-medium cursor-pointer' onClick={() => navigate('/about')}>
             {t('navbar_about')}
           </button>
+          <button type='button' className='font-medium cursor-pointer' onClick={() => navigate('/quiz-hub')}>
+            {t('navbar_quiz_hub')}
+          </button>
           <button type='button' className='font-medium cursor-pointer' onClick={() => navigate('/chat')}>
             {t('navbar_chat')}
           </button>

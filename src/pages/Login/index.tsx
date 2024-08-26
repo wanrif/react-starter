@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@app/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 import InputField from '@components/InputField';
 import Button from '@components/Button';

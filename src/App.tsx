@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@app/hooks';
+import { useAppDispatch, useAppSelector } from './store/hooks';
 import { setTheme } from '@app/reducer';
 import { selectTheme } from '@app/selectors';
 import { isEmpty } from 'lodash';
