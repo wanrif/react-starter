@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import toUpper from 'lodash/toUpper';
 
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch } from '@store/hooks';
 import { setLocale } from '@app/reducer';
 
 const Locale = () => {

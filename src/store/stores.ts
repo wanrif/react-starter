@@ -2,7 +2,7 @@ import { configureStore, type Middleware } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import { persistConfig } from './persistence';
 import createReducer from './reducers';
-import apiMiddleware from './api';
+import apiMiddleware from './apiMiddleware';
 // import authMiddleware from '@middleware/authMiddleware';
 
 const persistedReducer = persistReducer(persistConfig, createReducer());

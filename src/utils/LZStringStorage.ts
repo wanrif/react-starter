@@ -1,7 +1,12 @@
 import { type WebStorage } from 'redux-persist';
 import LZString from 'lz-string';
+// import { AsyncEncryptStorage } from 'encrypt-storage';
 
-const createLZStringStorage = (baseStorage: WebStorage): WebStorage => {
+// const encryptStorage = new AsyncEncryptStorage('eysfUWx3L3cAZXxtAq', {
+//   prefix: 'starter',
+// });
+
+const createLZStringStorage = (baseStorage: WebStorage) => {
   return {
     getItem: async (key: string) => {
       const compressedItem = await baseStorage.getItem(key);

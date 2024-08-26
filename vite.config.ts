@@ -19,6 +19,7 @@ export default defineConfig({
       '@i18n': fileURLToPath(new URL('./src/i18n', import.meta.url)),
       '@middleware': fileURLToPath(new URL('./src/middleware', import.meta.url)),
       '@store': fileURLToPath(new URL('./src/store', import.meta.url)),
+      '@service': fileURLToPath(new URL('./src/service', import.meta.url)),
     },
   },
   server: {

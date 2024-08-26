@@ -4,20 +4,21 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import toast from 'react-hot-toast';
 
 import InputField from '@components/InputField';
 import Button from '@components/Button';
 
-import { loginSuccess, setLoginLoading, usePostLoginMutation } from './reducer';
+import { loginSuccess, setLoginLoading } from './reducer';
 import { selectLoginLoading } from './selectors';
+import { doLogin } from './thunk';
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
-  const [postLogin] = usePostLoginMutation();
   const isLoading = useAppSelector(selectLoginLoading);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,14 +40,20 @@ const Login = () => {
     try {
       dispatch(setLoginLoading(true));
 
-      const response = await postLogin(data).unwrap();
+      const response = await dispatch(doLogin(data)).unwrap();
       dispatch(loginSuccess(response.data));
 
       const from = (location.state as { from: Location })?.from?.pathname || '/';
       navigate(from);
-    } catch (error: any) {
-      console.error('rejected', error);
-      setError(error.data.message);
+    } catch (err: any) {
+      console.error('rejected ->', err);
+      if (err.status === 404) {
+        toast.error(err.message, {
+          position: 'top-right',
+        });
+      } else {
+        setError(err.message);
+      }
     } finally {
       dispatch(setLoginLoading(false));
     }

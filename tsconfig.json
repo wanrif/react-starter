@@ -16,7 +16,8 @@
       "@utils/*": ["./src/utils/*"],
       "@i18n/*": ["./src/i18n/*"],
       "@middleware/*": ["./src/middleware/*"],
-      "@store/*": ["./src/store/*"]
+      "@store/*": ["./src/store/*"],
+      "@service/*": ["./src/service/*"]
     },
 
     /* Bundler mode */
