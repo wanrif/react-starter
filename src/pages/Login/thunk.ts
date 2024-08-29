@@ -8,7 +8,6 @@ export const doLogin = createAsyncThunk(
       const response = await login(payload);
       return response;
     } catch (error: any) {
-      console.error('doLogin ->', error);
       return rejectWithValue({
         message: error.message,
         code: error.code,

@@ -46,7 +46,6 @@ const Login = () => {
       const from = (location.state as { from: Location })?.from?.pathname || '/';
       navigate(from);
     } catch (err: any) {
-      console.error('rejected ->', err);
       if (err.status === 404) {
         toast.error(err.message, {
           position: 'top-right',

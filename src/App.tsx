@@ -1,10 +1,10 @@
-import { useAppDispatch, useAppSelector } from './store/hooks';
+import { useEffect } from 'react';
+import { isEmpty } from 'lodash';
+import { Toaster } from 'react-hot-toast';
 import { setTheme } from '@app/reducer';
 import { selectTheme } from '@app/selectors';
-import { isEmpty } from 'lodash';
-import { useEffect } from 'react';
 import ClientRoutes from '@routes/index';
-import { Toaster } from 'react-hot-toast';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 const App = () => {
   const dispatch = useAppDispatch();

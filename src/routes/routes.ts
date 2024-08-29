@@ -1,17 +1,17 @@
 import React from 'react';
 import MainLayout, { type MainLayoutProps } from '@layouts/MainLayout';
-import LandingPage from '@pages/LandingPage';
-import NotFound from '@pages/NotFound';
-import Chatting from '@pages/Chatting';
-import Login from '@pages/Login';
-import QuizHub from '@pages/QuizHub';
+import LandingPage from '@pages/LandingPage/loadable';
+import NotFound from '@pages/NotFound/loadable';
+import Chatting from '@pages/Chatting/loadable';
+import Login from '@pages/Login/loadable';
+import QuizHub from '@pages/QuizHub/loadable';
 
 // Define a type for your route
 interface RouteConfig {
   path: string;
   name: string;
   protected?: boolean;
-  component?: React.FC;
+  component?: React.ComponentType<any>;
   subRoutes?: RouteConfig[];
   layout?: React.FC<MainLayoutProps>;
   header?: boolean;
