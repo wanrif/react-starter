@@ -51,7 +51,9 @@ export const loginSlice = createSlice({
     loginSuccess: (state, action: PayloadAction<{ access_token: string; refresh_token: string }>) => {
       state.access_token = action.payload.access_token;
       state.refresh_token = action.payload.refresh_token;
-      state.isAuthenticated = true;
+      if (state.access_token && state.refresh_token) {
+        state.isAuthenticated = true;
+      }
     },
     logoutSuccess: (state) => {
       state.access_token = '';

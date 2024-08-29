@@ -4,14 +4,21 @@ import { useTranslation } from 'react-i18next';
 
 import Theme from '@components/Theme';
 import Locale from '@components/Locale';
+import { useAppSelector } from '@store/hooks';
+import { selectIsAuthenticated } from '@pages/Login/selectors';
 
 interface Props {
   headerRef: RefObject<HTMLDivElement>;
 }
 
 const Navbar = ({ headerRef }: Props) => {
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const handleLogout = () => {
+    // Handle logout
+  };
 
   return (
     <div
@@ -36,9 +43,15 @@ const Navbar = ({ headerRef }: Props) => {
           </button>
           <Theme />
           <Locale />
-          <button type='button' className='font-medium cursor-pointer' onClick={() => navigate('/login')}>
-            {t('navbar_login')}
-          </button>
+          {isAuthenticated ? (
+            <button type='button' className='font-medium cursor-pointer' onClick={handleLogout}>
+              {t('navbar_logout')}
+            </button>
+          ) : (
+            <button type='button' className='font-medium cursor-pointer' onClick={() => navigate('/login')}>
+              {t('navbar_login')}
+            </button>
+          )}
         </div>
       </div>
     </div>

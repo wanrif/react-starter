@@ -1,4 +1,4 @@
-import type { RootState } from '../../store/stores';
+import type { RootState } from '@store/stores';
 
 export const selectIsAuthenticated = (state: RootState) => state.login.isAuthenticated;
 export const selectAccessToken = (state: RootState) => state.login.accessToken;

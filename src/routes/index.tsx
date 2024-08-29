@@ -1,16 +1,18 @@
-// routes/index.tsx
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import routes from '@routes/routes';
 import { useAppSelector } from '../store/hooks';
 import { selectIsAuthenticated } from '@pages/Login/selectors';
 
-// Define a type for route elements
+// Define types for route elements and components
 interface RouteElement {
   path: string;
   element: React.ReactNode;
   header?: boolean;
 }
+
+type ComponentType = React.ComponentType<any>;
+type LayoutComponentType = React.ComponentType<{ children: React.ReactNode; header?: boolean }>;
 
 const ClientRoutes: React.FC = () => {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
@@ -18,9 +20,9 @@ const ClientRoutes: React.FC = () => {
 
   // Helper function to create an element
   const createElement = (
-    Comp?: React.FC,
+    Comp: ComponentType | undefined,
     isProtected?: boolean,
-    LayoutComponent?: React.FC<{ children: React.ReactNode; header?: boolean }>,
+    LayoutComponent?: LayoutComponentType,
     header?: boolean
   ): React.ReactNode => {
     if (!Comp) return null;
