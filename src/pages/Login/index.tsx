@@ -46,12 +46,13 @@ const Login = () => {
       const from = (location.state as { from: Location })?.from?.pathname || '/';
       navigate(from);
     } catch (err: any) {
+      console.error('err ->', err);
       if (err.status === 404) {
         toast.error(err.message, {
           position: 'top-right',
         });
       } else {
-        setError(err.message);
+        setError(err.data.message || err.message);
       }
     } finally {
       dispatch(setLoginLoading(false));

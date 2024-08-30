@@ -3,7 +3,7 @@ import axios, { type AxiosRequestConfig, AxiosError } from 'axios';
 import store from '@store/stores';
 import { selectRefreshToken, selectAccessToken } from '@pages/Login/selectors';
 import { loginSuccess, logoutSuccess } from '@pages/Login/reducer';
-import { url } from './api';
+import { apiUrl } from './api';
 
 let isRefreshing = false;
 let failedQueue: Array<{ resolve: (value?: unknown) => void; reject: (reason?: any) => void }> = [];
@@ -23,7 +23,7 @@ const processQueue = (error: AxiosError | null, token: string | null = null) => 
 const refreshTokenRequest = async () => {
   const refreshToken = selectRefreshToken(store.getState());
   try {
-    const response = await axios.post(url.refreshToken, { refreshToken });
+    const response = await axios.post(apiUrl.refreshToken, { refreshToken });
     const { accessToken, newRefreshToken } = response.data;
     store.dispatch(loginSuccess({ access_token: accessToken, refresh_token: newRefreshToken }));
     return accessToken;

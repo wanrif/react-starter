@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import routes from '@routes/routes';
-import { useAppSelector } from '../store/hooks';
+import { useAppSelector } from '@store/hooks';
 import { selectIsAuthenticated } from '@pages/Login/selectors';
 
 // Define types for route elements and components
