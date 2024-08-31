@@ -7,44 +7,49 @@ import { obfuscator } from 'rollup-obfuscator';
 // https://vitejs.dev/config/
 export default () => {
   /**
-   * @var prefix - unix, must be the same as one of the routes ( root path )
-   * @example /migrate/migrate-to-halo -> migrate
+   * @var prefix - unique prefix for the project
+   * @example /react-starter/login -> react-starter
    */
-  // const prefix = 'react-treez';
+  const prefix = 'react-starter';
 
   return defineConfig({
     plugins: [
       react(),
       obfuscator({
         compact: true,
-        controlFlowFlattening: true,
-        controlFlowFlatteningThreshold: 1,
-        deadCodeInjection: true,
-        deadCodeInjectionThreshold: 1,
-        debugProtection: true,
-        debugProtectionInterval: 5000,
-        disableConsoleOutput: true,
-        numbersToExpressions: true,
+        controlFlowFlattening: false,
+        deadCodeInjection: false,
+        debugProtection: false,
+        debugProtectionInterval: 0,
+        disableConsoleOutput: false,
         identifierNamesGenerator: 'hexadecimal',
         log: false,
-        rotateStringArray: true,
+        numbersToExpressions: false,
+        renameGlobals: false,
         selfDefending: true,
         simplify: true,
-        splitStrings: true,
+        splitStrings: false,
         stringArray: true,
-        stringArrayEncoding: ['base64'],
+        stringArrayCallsTransform: false,
+        stringArrayCallsTransformThreshold: 0.5,
+        stringArrayEncoding: [],
+        stringArrayIndexShift: true,
+        stringArrayRotate: true,
         stringArrayShuffle: true,
-        stringArrayThreshold: 1,
-        transformObjectKeys: true,
+        stringArrayWrappersCount: 1,
+        stringArrayWrappersChainedCalls: true,
+        stringArrayWrappersParametersMaxCount: 2,
+        stringArrayWrappersType: 'variable',
+        stringArrayThreshold: 0.75,
         unicodeEscapeSequence: false,
       }),
     ],
     build: {
       rollupOptions: {
         output: {
-          assetFileNames: 'assets/[name]-[hash][extname]',
-          chunkFileNames: 'chunks/[name]-[hash].js',
-          entryFileNames: '[name]-[hash].js',
+          assetFileNames: `${prefix ? `${prefix}/` : ''}assets/[name]-[hash][extname]`,
+          chunkFileNames: `${prefix ? `${prefix}/` : ''}chunks/[name]-[hash].js`,
+          entryFileNames: `${prefix ? `${prefix}/` : ''}[name]-[hash].js`,
           manualChunks(id) {
             if (id.includes('node_modules')) {
               return id.toString().split('node_modules/')[1].split('/')[0].toString().replace('@', '');

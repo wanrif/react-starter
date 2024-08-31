@@ -41,7 +41,7 @@ const Login = () => {
       dispatch(setLoginLoading(true));
 
       const response = await dispatch(doLogin(data)).unwrap();
-      dispatch(loginSuccess(response.data));
+      dispatch(loginSuccess(response));
 
       const from = (location.state as { from: Location })?.from?.pathname || '/';
       navigate(from);

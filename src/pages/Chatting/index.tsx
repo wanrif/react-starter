@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useRef, useState, type Key } from 'react';
-import { setContacts, useGetContactsQuery } from './reducer';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setContacts } from './reducer';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { doGetContacts } from './thunk';
+import { selectAccessToken } from '@pages/Login/selectors';
+
 import socket, { connectSocket } from '@utils/socket';
 
 interface IChatting {
@@ -21,23 +24,31 @@ interface IMessage {
 
 const Chatting = ({ headerHeight = 0 }: IChatting) => {
   const dispatch = useAppDispatch();
-  const token = useAppSelector((state) => state.login.access_token);
-  const { data, error } = useGetContactsQuery([]);
+  const token = useAppSelector(selectAccessToken);
+  // const { data, error } = useGetContactsQuery([]);
   const contactList = useAppSelector((state) => state.chatting.contacts);
   const [message, setMessage] = useState<string>('');
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [selectedContact, setSelectedContact] = useState<IContact | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  if (error) {
-    console.error(error);
-  }
+  // if (error) {
+  //   console.error(error);
+  // }
+  console.log('contactList ->', contactList);
+
+  const fetchData = async () => {
+    try {
+      const response = await dispatch(doGetContacts()).unwrap();
+      dispatch(setContacts(response.contactList));
+    } catch (error) {
+      console.error('error ->', error);
+    }
+  };
 
   useEffect(() => {
-    if (data) {
-      dispatch(setContacts(data.contactList));
-    }
-  }, [data, dispatch]);
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (token) {
@@ -96,25 +107,26 @@ const Chatting = ({ headerHeight = 0 }: IChatting) => {
           <div
             style={{ maxHeight: `calc(100vh - ${headerHeight}px - 103px)`, scrollbarWidth: 'none' }}
             className='overflow-y-auto scroll-smooth'>
-            {contactList.map((contact: IContact, index: Key) => (
-              <div
-                key={index}
-                onClick={() => handleOpenChat(contact)}
-                className='p-4 border-b border-slate-200 dark:border-primary-100 cursor-pointer
+            {contactList &&
+              contactList.map((contact: IContact, index: Key) => (
+                <div
+                  key={index}
+                  onClick={() => handleOpenChat(contact)}
+                  className='p-4 border-b border-slate-200 dark:border-primary-100 cursor-pointer
                 group hover:bg-slate-200 dark:hover:bg-primary-100 transition-colors
                 '>
-                <div className='flex items-center gap-4'>
-                  <div
-                    className='w-12 h-12 rounded-full bg-slate-200 dark:bg-primary-100
+                  <div className='flex items-center gap-4'>
+                    <div
+                      className='w-12 h-12 rounded-full bg-slate-200 dark:bg-primary-100
                   group-hover:bg-amber-500 transition-colors
                   '></div>
-                  <div className='flex flex-col'>
-                    <div className='text-lg font-medium dark:text-amber-500'>{contact?.name}</div>
-                    <div className='text-sm text-slate-400'>{contact?.email}</div>
+                    <div className='flex flex-col'>
+                      <div className='text-lg font-medium dark:text-amber-500'>{contact?.name}</div>
+                      <div className='text-sm text-slate-400'>{contact?.email}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
             <div className='p-4 text-xs'>
               Your personal message are end-to-end encrypted and can only be read by you and the recipient.
             </div>

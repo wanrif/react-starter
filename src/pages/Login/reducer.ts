@@ -58,6 +58,7 @@ export const loginSlice = createSlice({
     logoutSuccess: (state) => {
       state.access_token = '';
       state.refresh_token = '';
+      state.isAuthenticated = false;
     },
   },
 });
