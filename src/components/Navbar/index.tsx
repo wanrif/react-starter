@@ -2,22 +2,44 @@ import type { RefObject } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { selectIsAuthenticated } from '@pages/Login/selectors';
+import { logoutSuccess } from '@pages/Login/reducer';
+
 import Theme from '@components/Theme';
 import Locale from '@components/Locale';
-import { useAppSelector } from '@store/hooks';
-import { selectIsAuthenticated } from '@pages/Login/selectors';
 
 interface Props {
   headerRef: RefObject<HTMLDivElement>;
 }
 
 const Navbar = ({ headerRef }: Props) => {
+  const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const navbarLinks = new Set([
+    {
+      name: 'navbar_home',
+      link: '/',
+    },
+    {
+      name: 'navbar_about',
+      link: '/about',
+    },
+    {
+      name: 'navbar_quiz_hub',
+      link: '/quiz-hub',
+    },
+    {
+      name: 'navbar_chat',
+      link: '/chat',
+    },
+  ]);
+
   const handleLogout = () => {
-    // Handle logout
+    dispatch(logoutSuccess());
   };
 
   return (
@@ -29,18 +51,15 @@ const Navbar = ({ headerRef }: Props) => {
           Navbar
         </div>
         <div className='flex items-center gap-4'>
-          <button type='button' className='font-medium cursor-pointer' onClick={() => navigate('/')}>
-            {t('navbar_home')}
-          </button>
-          <button type='button' className='font-medium cursor-pointer' onClick={() => navigate('/about')}>
-            {t('navbar_about')}
-          </button>
-          <button type='button' className='font-medium cursor-pointer' onClick={() => navigate('/quiz-hub')}>
-            {t('navbar_quiz_hub')}
-          </button>
-          <button type='button' className='font-medium cursor-pointer' onClick={() => navigate('/chat')}>
-            {t('navbar_chat')}
-          </button>
+          {[...navbarLinks].map((item) => (
+            <button
+              key={item.link}
+              type='button'
+              className='font-medium cursor-pointer'
+              onClick={() => navigate(item.link)}>
+              {t(item.name)}
+            </button>
+          ))}
           <Theme />
           <Locale />
           {isAuthenticated ? (

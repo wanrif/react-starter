@@ -2,11 +2,16 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { selectIsAuthenticated } from '@pages/Login/selectors';
 import Theme from '@components/Theme';
 import Locale from '@components/Locale';
+import { logoutSuccess } from '@pages/Login/reducer';
 
 const NotFound = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const header = useRef<HTMLDivElement>(null);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const { t } = useTranslation();
@@ -17,7 +22,7 @@ const NotFound = () => {
     }
   }, [header.current?.clientHeight]);
 
-  const navbarLinks = [
+  const navbarLinks = new Set([
     {
       name: 'navbar_home',
       link: '/',
@@ -27,10 +32,14 @@ const NotFound = () => {
       link: '/about',
     },
     {
+      name: 'navbar_quiz_hub',
+      link: '/quiz-hub',
+    },
+    {
       name: 'navbar_chat',
       link: '/chat',
     },
-  ];
+  ]);
 
   const handleNavigate = useCallback(
     (link: string) => {
@@ -38,6 +47,10 @@ const NotFound = () => {
     },
     [navigate]
   );
+
+  const handleLogout = () => {
+    dispatch(logoutSuccess());
+  };
 
   return (
     <div className='flex flex-col'>
@@ -47,26 +60,33 @@ const NotFound = () => {
             Navbar
           </div>
           <div className='flex items-center gap-4'>
-            {navbarLinks.map((item) => (
+            {[...navbarLinks].map((item) => (
               <button
                 key={item.link}
                 type='button'
                 className='font-medium cursor-pointer'
-                onClick={() => handleNavigate(item.link)}
-              >
+                onClick={() => handleNavigate(item.link)}>
                 {t(item.name)}
               </button>
             ))}
             <Theme />
             <Locale />
+            {isAuthenticated ? (
+              <button type='button' className='font-medium cursor-pointer' onClick={handleLogout}>
+                {t('navbar_logout')}
+              </button>
+            ) : (
+              <button type='button' className='font-medium cursor-pointer' onClick={() => navigate('/login')}>
+                {t('navbar_login')}
+              </button>
+            )}
           </div>
         </div>
       </div>
 
       <section
         style={{ minHeight: `calc(100dvh - ${headerHeight}px)` }}
-        className='flex items-center justify-center text-4xl font-bold bg-slate-50 dark:bg-primary-300 text-primary-200 dark:text-primary-50'
-      >
+        className='flex items-center justify-center text-4xl font-bold bg-slate-50 dark:bg-primary-300 text-primary-200 dark:text-primary-50'>
         {t('not_found')}
       </section>
     </div>

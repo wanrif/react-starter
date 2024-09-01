@@ -35,7 +35,6 @@ const Chatting = ({ headerHeight = 0 }: IChatting) => {
   // if (error) {
   //   console.error(error);
   // }
-  console.log('contactList ->', contactList);
 
   const fetchData = async () => {
     try {
@@ -86,6 +85,20 @@ const Chatting = ({ headerHeight = 0 }: IChatting) => {
       setMessage('');
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedContact(null);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   return (
     <div

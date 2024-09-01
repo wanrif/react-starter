@@ -34,6 +34,10 @@ const Login = () => {
     handleSubmit,
   } = useForm<formData>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: 'wanrif@test.com',
+      password: 'password',
+    },
   });
 
   const onSubmit: SubmitHandler<formData> = async (data) => {
@@ -43,7 +47,7 @@ const Login = () => {
       const response = await dispatch(doLogin(data)).unwrap();
       dispatch(loginSuccess(response));
 
-      const from = (location.state as { from: Location })?.from?.pathname || '/';
+      const from = location.state?.from || '/';
       navigate(from);
     } catch (err: any) {
       console.error('err ->', err);

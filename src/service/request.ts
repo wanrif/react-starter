@@ -4,6 +4,7 @@ import { selectRefreshToken, selectAccessToken } from '@pages/Login/selectors';
 import { loginSuccess, logoutSuccess } from '@pages/Login/reducer';
 import { selectLocale } from '@app/selectors';
 import { apiUrl } from './api';
+
 interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry: boolean;
 }
@@ -32,9 +33,15 @@ const processQueue = (error: AxiosError | null, token: string | null = null) => 
 };
 
 const refreshTokenRequest = async () => {
+  const accessToken = selectAccessToken(store.getState());
   const refreshToken = selectRefreshToken(store.getState());
   try {
-    const response = await apiRequest.post(apiUrl.refreshToken, { refresh_token: refreshToken });
+    const response = await apiRequest.post(apiUrl.refreshToken, undefined, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'X-Refresh-Token': `Bearer ${refreshToken}`,
+      },
+    });
     const { access_token, refresh_token } = response.data.data;
     store.dispatch(loginSuccess({ access_token, refresh_token }));
     return access_token;

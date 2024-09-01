@@ -5,6 +5,7 @@
   "navbar_about": "About",
   "navbar_chat": "Chat",
   "navbar_login": "Login",
+  "navbar_logout": "Logout",
   "navbar_quiz_hub": "Quiz",
 
   "form_login_title": "Login",
